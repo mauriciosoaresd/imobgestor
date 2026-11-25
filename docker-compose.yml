@@ -1,0 +1,26 @@
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: imobgestor-db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: imobgestor
+      POSTGRES_USER: imobgestor
+      POSTGRES_PASSWORD: imobgestor_dev
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - imobgestor_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U imobgestor -d imobgestor"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  imobgestor_data:
